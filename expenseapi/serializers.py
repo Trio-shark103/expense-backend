@@ -20,5 +20,5 @@ class UserSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ["id", "title", "status", "category","author", "description", "amount","created_at", "updated_at", "date"]
+        fields = ["id", "title", "transaction_type", "category","author", "description", "amount","created_at", "updated_at", "date"]
         extra_kwargs = {"author":{"read_only": True}} # This restrict the name of the author to read only to prevent editing of author
