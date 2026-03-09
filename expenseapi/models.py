@@ -19,39 +19,35 @@ class Category(models.Model):
     
     def __str__(self):
         return self.category_name
-
-
-# class Income(models.Model):
-#     total_amount = models.DecimalField(max_digits=12, decimal_places=2)
-#     added_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
     
-#     def __str__(self):
-#         return f"{self.total_amount}"
 
+class Department(models.Model):
+    name = models.CharField(max_length=100)
 
-
-# class Expense(models.Model):
-#     total_amount = models.DecimalField(max_digits=12, decimal_places=2)
-#     added_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-    
-#     def __str__(self):
-#         return f"{self.total_amount}"
-    
-    
+    def __str__(self):
+        return self.name
 
 class Transaction(models.Model):
-    title = models.CharField(max_length=200)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     transaction_type = models.CharField(max_length=20, choices=TRANSACTION_CHOICES, default="Expense")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE ,null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = models.TextField(max_length=500, blank=True)
+    narration = models.TextField(max_length=500, blank=True)
     date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(auto_now=True)
     
     
     def __str__(self):
-        return self.title
+        return f"{self.category}"
+    
+
+class UserDetail(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="userdetail", null=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.user.username
