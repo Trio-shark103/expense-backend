@@ -1,14 +1,15 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import TransactionViewSet, CategoryViewSet, CategoryExpenseView, DashboardView
-
+from .views import TransactionViewSet, CategoryViewSet, CategoryExpenseView, DashboardView, MonthlyExpenseView, TopCategoryExpenseView
 router = DefaultRouter()
 router.register("transactions", TransactionViewSet, basename="transactions")
-router.register("categories", CategoryViewSet)
+router.register("categories", CategoryViewSet,  basename="categories") 
 
 urlpatterns = [
     path("", include(router.urls)),
     path("analytics/category-expenses/", CategoryExpenseView.as_view()),
+    path("analytics/monthly-expenses/", MonthlyExpenseView.as_view()),
+    path("analytics/top-categories/", TopCategoryExpenseView.as_view()),
     path("dashboard/", DashboardView.as_view()),
 ]
 
