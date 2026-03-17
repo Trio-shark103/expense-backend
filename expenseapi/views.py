@@ -70,18 +70,18 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
 
-        department = self.request.user.userdetail.department
+        # department = self.request.user.userdetail.department
 
         return Category.objects.filter(
-            department=department,
+            # department=department,
             is_deleted=False
         )
 
     def perform_create(self, serializer):
 
-        department = self.request.user.userdetail.department
+        # department = self.request.user.userdetail.department
 
-        serializer.save(department=department)
+        serializer.save()
         
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
